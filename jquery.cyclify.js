@@ -45,14 +45,10 @@
           });
           callback_if_necessary();
         } else {
-          //unless we're looping
           if(options.loop) {
             begin();
-          } else {
-            console.log("already maxed out and not looping!");
           }
         }
-
       };
       var prev = function prev() {
         var cycle_num = current_cycle_num(),
@@ -63,11 +59,8 @@
           });
         callback_if_necessary();
         } else {
-        //unless we're loopingi
           if(options.loop) {
             end();
-          } else {
-            console.log("already at 0!");
           }
         }
       };
