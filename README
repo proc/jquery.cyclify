@@ -1,8 +1,8 @@
 jQuery.cyclify()
 
 This is a jQuery plugin that lets the user cycle through a bunch of divs, one at a time.
-
-Requires these jQuery and these CSS classes to work:
+Additional easing effects can be gained by including jQuery UI.
+Requires jQuery and these CSS classes to work:
 
 wrapper-class *can be any class*
     cycle-controls
@@ -19,10 +19,10 @@ wrapper-class *can be any class*
 USAGE:
   // all options are optional
   $('.wrapper-class').cyclify({
-    loop       : true,
-    transition : 'linear',
-    delay      : 100,
-    success : function(current_div) {
+    loop       : true, //whether or not to loop when cycle hits endpoints
+    transition : 'linear', // name of easing function to use ( default: swing )
+    delay      : 100, // animation time
+    success : function(current_div) { //callback on current div ( after cycle )
       alert('the current div is ' + $(current_div));
     }
   });
