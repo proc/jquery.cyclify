@@ -1,0 +1,28 @@
+jQuery.cyclify()
+
+This is a jQuery plugin that lets the user cycle through a bunch of divs, one at a time.
+
+Requires these jQuery and these CSS classes to work:
+
+wrapper-class *can be any class*
+    cycle-controls
+        cycle-prev
+        cycle-next
+        cycle-begin
+        cycle-end
+    cycle-cycles
+        div
+        div
+        div
+        ...
+
+USAGE:
+  // all options are optional
+  $('.wrapper-class').cyclify({
+    loop       : true,
+    transition : 'linear',
+    delay      : 100,
+    success : function(current_div) {
+      alert('the current div is ' + $(current_div));
+    }
+  });
