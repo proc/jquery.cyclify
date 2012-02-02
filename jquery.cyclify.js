@@ -18,17 +18,19 @@
           $cycles = this.find('.cycle-cycles div'),
           max     = $cycles.length,
           min     = 0,
+          current_index = 0,
           options = $.extend(defaults, options);
+      
+      function set_current_cycle(num) {
+        current_index = num;
+        $cycles.removeClass('current-cycle');
+        $cycles.hide();
+        $($cycles[num]).show(options.delay, options.transition).addClass('current-cycle');
 
+      }
+      
       function current_cycle_num() {
-        var rval;
-        $cycles.each(function(i, elem) {
-          if($(elem).is(':visible')) {
-            rval = i;
-            return false; // returning false stops each() from within callback
-          }
-        });
-        return rval;
+        return current_index;
       }
       function callback_if_necessary() {
         if(typeof options.success === 'function') {
@@ -39,10 +41,9 @@
       var next = function next() {
         var cycle_num = current_cycle_num(),
             $current = $($cycles[cycle_num]);
+
         if(cycle_num < (max - 1)) { 
-          $current.hide(options.delay, options.transition, function() {
-            $($cycles[cycle_num + 1]).show(options.delay, options.transition);
-          });
+            set_current_cycle(cycle_num + 1);
           callback_if_necessary();
         } else {
           if(options.loop) {
@@ -52,12 +53,10 @@
       };
       var prev = function prev() {
         var cycle_num = current_cycle_num(),
-            $current = $($cycles[cycle_num]);
+        $current = $($cycles[cycle_num]);
         if(cycle_num > min) { 
-          $current.hide( options.delay, options.transition, function() {
-            $($cycles[cycle_num - 1]).show(options.delay, options.transition);
-          });
-        callback_if_necessary();
+          set_current_cycle(cycle_num - 1);
+          callback_if_necessary();
         } else {
           if(options.loop) {
             end();
@@ -65,19 +64,11 @@
         }
       };
       var begin = function begin() {
-        var cycle_num = current_cycle_num(),
-            $current = $($cycles[cycle_num]);
-          $current.hide(options.delay, options.transition, function() {
-            $($cycles[0]).show(options.delay, options.transition);
-          });
-          callback_if_necessary();
+        set_current_cycle(0);
+        callback_if_necessary();
       };
       var end = function end() {
-        var cycle_num = current_cycle_num(),
-            $current = $($cycles[cycle_num]);
-        $current.hide(options.delay, options.transition, function() {
-          $($cycles[max - 1]).show(options.delay, options.transition);
-        });
+        set_current_cycle(max - 1);
         callback_if_necessary();
       };
 
@@ -94,8 +85,8 @@
         $end.die().live('click', function() {
           end();
         });
+        set_current_cycle(0);
         begin();
-        $cycles.not(":first-child").hide();
       }
 
       init();
@@ -104,7 +95,7 @@
         next : next,
         prev : prev,
         begin : begin,
-        end : end
+        end : end,
       }
     }
 });
