@@ -8,20 +8,20 @@
       var defaults = {
         loop : false,
         transition: 'swing',
-        delay : 0
+        delay : 0,
+        begin_at : 0
       }
-      var $controls = this.find('.cycle-controls'),
-          $begin = $controls.find('.cycle-begin'),
-          $prev  = $controls.find('.cycle-prev'),
-          $next  = $controls.find('.cycle-next'),
-          $end   = $controls.find('.cycle-end'),
-          $cycles = this.find('.cycle-cycles div'),
-          max     = $cycles.length,
-          min     = 0,
+      var $controls     = this.find('.cycle-controls'),
+          $begin        = $controls.find('.cycle-begin'),
+          $prev         = $controls.find('.cycle-prev'),
+          $next         = $controls.find('.cycle-next'),
+          $end          = $controls.find('.cycle-end'),
+          $cycles       = this.find('.cycle-cycles div'),
+          max           = $cycles.length,
           current_index = 0,
-          options = $.extend(defaults, options);
+          options       = $.extend(defaults, options);
       
-      function set_current_cycle(num) {
+      function _set_current_cycle(num) {
         current_index = num;
         $cycles.removeClass('current-cycle');
         $cycles.hide();
@@ -29,21 +29,17 @@
 
       }
       
-      function current_cycle_num() {
-        return current_index;
-      }
-      function callback_if_necessary() {
+      function _callback_if_necessary() {
         if(typeof options.success === 'function') {
-          options.success($($cycles[current_cycle_num()]));
+          options.success($($cycles[current_index]));
         }
       }
 
       var next = function next() {
-        var cycle_num = current_cycle_num(),
+        var cycle_num = current_index,
             $current = $($cycles[cycle_num]);
-
         if(cycle_num < (max - 1)) { 
-            set_current_cycle(cycle_num + 1);
+          _set_current_cycle(cycle_num + 1);
           callback_if_necessary();
         } else {
           if(options.loop) {
@@ -52,10 +48,10 @@
         }
       };
       var prev = function prev() {
-        var cycle_num = current_cycle_num(),
+        var cycle_num = current_index,
         $current = $($cycles[cycle_num]);
-        if(cycle_num > min) { 
-          set_current_cycle(cycle_num - 1);
+        if(cycle_num > 0) { 
+          _set_current_cycle(cycle_num - 1);
           callback_if_necessary();
         } else {
           if(options.loop) {
@@ -64,15 +60,15 @@
         }
       };
       var begin = function begin() {
-        set_current_cycle(0);
+        _set_current_cycle(0);
         callback_if_necessary();
       };
       var end = function end() {
-        set_current_cycle(max - 1);
+        _set_current_cycle(max - 1);
         callback_if_necessary();
       };
 
-      var init = function() {
+      var _init = function() {
         $next.die().live('click', function() {
           next();
         });
@@ -85,17 +81,17 @@
         $end.die().live('click', function() {
           end();
         });
-        set_current_cycle(0);
-        begin();
+        _set_current_cycle(options.begin_at);
+        callback_if_necessary();
       }
 
-      init();
+      _init();
 
       return {
-        next : next,
-        prev : prev,
+        next  : next,
+        prev  : prev,
         begin : begin,
-        end : end,
+        end   : end,
       }
     }
 });
