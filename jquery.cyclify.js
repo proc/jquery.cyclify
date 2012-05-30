@@ -69,7 +69,7 @@
         }
       }
 
-      Cycler.prototype.next = function() {
+      Cycler.prototype.prev = function() {
         var cycle_num = this.elements.current_index;
         if(cycle_num < (this.elements.max - 1)) {
           this._set_current_cycle(cycle_num + 1);
@@ -81,7 +81,7 @@
         }
       };
 
-      Cycler.prototype.prev = function() {
+      Cycler.prototype.next = function() {
         var cycle_num = this.elements.current_index;
         if(cycle_num > 0) {
           this._set_current_cycle(cycle_num - 1);
@@ -107,4 +107,6 @@
     }
 });
 })(jQuery);
+
+
 
