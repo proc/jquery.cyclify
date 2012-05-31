@@ -26,15 +26,10 @@ The HTML/CSS must have the following structure (Note: elements only need to have
 	        div
 	        ...
 ##### Javascript
-	  // all options are optional
 	  $('.wrapper-class').cyclify({
-	  	//whether or not to loop when cycle hits endpoints
 	    loop       : true, 
-	    // name of easing function to use ( default: swing )
 	    transition : 'linear',
-	    // animation time
 	    delay      : 100,
-	    //callback on current div ( after cycle )
 	    success : function(current_div) { 
 	      alert('the current div is ' + $(current_div));
 	    }
