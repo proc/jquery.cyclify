@@ -94,13 +94,17 @@
       };
 
       Cycler.prototype.begin = function() {
-        this._set_current_cycle(0);
-        this.callback_if_necessary();
+        if (this.elements.current_index !== 0) {
+          this._set_current_cycle(0);
+          this.callback_if_necessary();
+        }
       };
 
       Cycler.prototype.end = function() {
-        this._set_current_cycle(this.elements.max - 1);
-        this.callback_if_necessary();
+        if (this.elements.current_index !== (this.elements.max - 1)) {
+          this._set_current_cycle(this.elements.max - 1);
+          this.callback_if_necessary();
+        }
       };
 
       return new Cycler(this, options);
